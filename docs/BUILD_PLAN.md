@@ -11,7 +11,9 @@ build order with exit criteria.
 
 ## 1. Final scope recap
 
-- Layout: **Option C — Bento Grid** homepage.
+- Layout: **Option D — Editorial / Magazine** homepage (blog-forward: hero
+  headline, one featured post, a recent-posts grid, and a side rail for
+  About/tags/projects — supersedes an earlier Option C pick).
 - Nav: **Home · Projects · Blog** (3 items only).
 - No Research, no Teaching, no Experience page, no dedicated Résumé page.
 - Résumé = a link/button on Home (PDF in `/public`, opens in new tab).
@@ -255,28 +257,48 @@ mechanism:
 
 ---
 
-## 7. Homepage (Option C bento grid) — exact card inventory
+## 7. Homepage (Option D editorial/magazine) — exact section inventory
 
-Above the grid, a **hero row** (not a bento card): circular profile photo,
-name, one-line role/tagline, 2–3 sentence bio, and a row of social icon
-buttons (GitHub, LinkedIn, email, and a **Résumé** icon/button that opens
-`/resume.pdf` in a new tab).
+Top to bottom, adapted from the Layout D mockup with the dropped sections
+(Research/Teaching/Experience/Résumé page) removed and résumé handled as a
+link:
 
-Below the hero, a 6-card bento grid (final inventory, adjusted for the
-dropped sections):
+1. **Navbar** — wordmark/name left, `Home · Projects · Blog` right, a
+   search icon (wired up once `pagefind` lands in the Phase 2 blog
+   roadmap — until then it's either omitted or a disabled/tooltip state),
+   theme toggle.
+2. **Hero headline** — serif display headline (e.g. "Notes on software,
+   research, and everyday learning" — actual copy is yours to write),
+   with a one-line gray subtext underneath. No profile photo required here
+   (kept for the side-rail author card instead) to keep the hero
+   text-forward, matching the mockup.
+3. **Featured post card** — the single most recent (or manually pinned via
+   `featured: true` on a post) article, large cover image + title +
+   excerpt + author/date + tags, spanning most of the width.
+4. **Recent posts grid** — 3-column grid (responsive to 1-column on
+   mobile) of the next 6 most recent posts, each a compact card (cover
+   thumbnail, title, date, reading time). Links to `/blog` for the full,
+   filterable archive live just above or below this grid ("View all
+   posts →").
+5. **Side rail** (right-hand column on desktop, moves below the main
+   column on mobile/tablet):
+   - **About the author** mini card — small circular photo, name, 2-line
+     bio, and the social icon row (GitHub, LinkedIn, email) plus the
+     **Résumé** link/button (opens `/resume.pdf` in a new tab). This is
+     where "About" effectively lives, satisfying that Home doubles as
+     About without a separate page.
+   - **Popular tags** — a pill list of the most-used blog tags, each
+     linking to `/blog/tags/[tag]`.
+   - **Featured projects** mini list — 3 rows (name + one-line
+     description), each linking to `/projects` or a project's own links;
+     "View all projects →" link to the full `/projects` page.
+6. **Footer** — small text, repeated social icons, no newsletter signup at
+   launch (newsletter capture is a Phase 2 blog-roadmap item per `PLAN.md`
+   §6 — the footer slot for it exists but ships empty/omitted until then).
 
-| Card | Content | Links to |
-|---|---|---|
-| **About Me** | 2–3 paragraphs — background, current role, what you're focused on (the "elaborated" version of the hero's one-liner) | — |
-| **Currently** | 3 short bullet lines: building / learning / reading | — |
-| **Latest Writing** | The 1–2 most recent blog posts (title, date, excerpt) | `/blog` and each post |
-| **Featured Projects** | 3–4 mini project chips (name + 1 tag) marked `featured: true` in frontmatter | `/projects` and each project |
-| **Tech Stack** | Small icon grid of primary tools/languages | — |
-| **Résumé & Contact** | "View Résumé" button + "Email me" button (redundant with hero socials for anyone who lands mid-page/shares this card) | `/resume.pdf`, `mailto:` |
-
-Grid is responsive: 3-column on desktop (with "About Me" and "Latest
-Writing" spanning 2 columns as the visually larger cards, matching the
-mockup's asymmetry), collapsing to a single column, hero-first, on mobile.
+This keeps writing as the visual lead (matching your preference for Option
+D) while folding About/Résumé/Projects into a supporting rail rather than
+resurrecting the dropped nav items.
 
 ---
 
@@ -286,7 +308,7 @@ mockup's asymmetry), collapsing to a single column, hero-first, on mobile.
 /
 ├─ app/
 │  ├─ layout.tsx                     # shell: navbar, footer, ThemeProvider
-│  ├─ page.tsx                       # Home (bento grid)
+│  ├─ page.tsx                       # Home (editorial: hero, featured post, recent grid, side rail)
 │  ├─ projects/
 │  │  ├─ page.tsx                    # tag-filterable grid
 │  │  └─ [slug]/page.tsx             # project detail (optional if description fits on the card)
@@ -307,7 +329,8 @@ mockup's asymmetry), collapsing to a single column, hero-first, on mobile.
 │        └─ cover.png                # optional, colocated post assets
 ├─ components/
 │  ├─ nav-bar.tsx, footer.tsx, theme-toggle.tsx
-│  ├─ bento/                         # about-card.tsx, currently-card.tsx, tech-stack-card.tsx, ...
+│  ├─ home/                          # featured-post-card.tsx, recent-posts-grid.tsx, side-rail/
+│  │  └─ side-rail/                  # author-card.tsx, popular-tags.tsx, featured-projects-list.tsx
 │  ├─ project-card.tsx, post-card.tsx, tag-pill.tsx
 │  ├─ blog/table-of-contents.tsx
 │  ├─ ui/                            # shadcn primitives
@@ -364,13 +387,14 @@ has begun yet; this is the order they'll happen in once you say go.
 - *Exit criteria:* `/projects` fully navigable, tag filters work, at least
   4–5 real or placeholder projects rendered.
 
-**Phase 4 — Home (bento grid)**
-- Hero row + the 6 bento cards from §7, pulling live data from
-  `lib/content` for "Latest Writing" and "Featured Projects" (no
-  hardcoded duplication of content already modeled elsewhere).
+**Phase 4 — Home (editorial layout)**
+- Hero headline, featured-post card, recent-posts grid, and the side rail
+  (author card, popular tags, featured projects) from §7, pulling live
+  data from `lib/content` throughout (no hardcoded duplication of content
+  already modeled elsewhere).
 - *Exit criteria:* homepage matches the chosen mockup's structure, is
-  responsive down to mobile, and every card's data is real (pulled from
-  content, not stubbed).
+  responsive down to mobile (side rail moves below the main column), and
+  every section's data is real (pulled from content, not stubbed).
 
 **Phase 5 — SEO, polish, accessibility pass**
 - Metadata API wired on every route, JSON-LD (`Person`, `BlogPosting`),
@@ -381,15 +405,21 @@ has begun yet; this is the order they'll happen in once you say go.
 
 **Phase 6 — Content fill & launch on Vercel subdomain**
 - Replace remaining placeholder content with your real bio, photo, résumé
-  PDF, project list, and first handful of posts.
-- Deploy to production on the `*.vercel.app` domain (no purchased domain
-  needed yet — see `PLAN.md` §7).
+  PDF, project list, and first handful of posts (aim for at least 2–3 real
+  posts before launch so the editorial homepage's featured card + recent
+  grid don't look sparse).
+- Deploy to production following the exact steps in
+  [`DEPLOYMENT.md`](./DEPLOYMENT.md) §§1–4 (repo → Vercel import → env
+  vars → verify) — no purchased domain needed yet.
 - *Exit criteria:* site is live and shareable at a Vercel URL.
 
 **Phase 7 — Domain cutover (whenever you've purchased one)**
-- Point DNS at Vercel, set `NEXT_PUBLIC_SITE_URL`, redeploy, verify
-  sitemap/RSS/OG now emit the real domain.
-- *Exit criteria:* site live at the custom domain with valid HTTPS.
+- Follow [`DEPLOYMENT.md`](./DEPLOYMENT.md) §5 exactly: add the domain in
+  Vercel, add the apex A record + `www` CNAME (or delegate to Vercel
+  nameservers) at your registrar, set `NEXT_PUBLIC_SITE_URL`, redeploy,
+  verify sitemap/RSS/OG now emit the real domain.
+- *Exit criteria:* site live at the custom domain with valid HTTPS, per
+  `DEPLOYMENT.md` §5's verification steps.
 
 **Phase 8+ — Blog roadmap Phase 2 features** (from `PLAN.md` §6, as/when
 you want them): `pagefind` search, `giscus` comments, related posts,
@@ -409,9 +439,9 @@ you — flag any you want changed before Phase 0 starts:
    `site.config.ts` — no structural impact either way.
 2. **Default citation style assumed: APA.** Overridable per-post via the
    `csl` field if a specific post calls for Chicago/numeric/etc.
-3. **"Currently" bento card** assumes you're fine writing 3 short status
-   lines (building/learning/reading) that you'll update occasionally —
-   flag if you'd rather drop this card in favor of a 5-card grid.
+3. **Hero headline copy and side-rail author bio length** are placeholder
+   until you provide real copy — structurally these are just strings in
+   `site.config.ts`/frontmatter, no layout impact either way.
 4. **Math rendering (`remark-math`/`rehype-katex`)** is included at zero
    cost if unused — confirm you don't want it removed entirely for a
    slightly smaller bundle if you're certain you'll never write equations.
