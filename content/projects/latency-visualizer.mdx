@@ -1,0 +1,15 @@
+---
+slug: latency-visualizer
+title: "Distributed Tracing Latency Visualizer"
+date: 2025-06-03
+description: "Interactive flamegraph-style views for OpenTelemetry traces across microservices."
+tags: [systems, observability, visualization]
+stack: [react, d3, opentelemetry]
+links:
+  code: https://github.com/yourusername/latency-visualizer
+  slides: https://slides.example.com/latency-viz
+---
+
+A prototype UI for exploring tail latency in multi-service traces. Imports OTLP JSON exports and renders span hierarchies with percentile overlays.
+
+Built to answer one question quickly: *which downstream hop blew the p99 budget on this endpoint?*

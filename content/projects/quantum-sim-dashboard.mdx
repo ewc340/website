@@ -1,0 +1,16 @@
+---
+slug: quantum-sim-dashboard
+title: "Quantum Simulation Dashboard"
+date: 2025-11-12
+description: "A lightweight web dashboard for monitoring variational quantum eigensolver jobs on a small HPC cluster."
+tags: [quantum-computing, web-dev, visualization]
+stack: [next.js, python, fastapi, plotly]
+links:
+  code: https://github.com/yourusername/quantum-sim-dashboard
+  demo: https://quantum-sim-dashboard.example.com
+featured: true
+---
+
+A browser-based control panel for queuing VQE experiments, visualizing convergence curves, and comparing ansätze across runs. Built as a thin Next.js front end over a FastAPI orchestration layer.
+
+The goal was operator ergonomics: researchers should see job status, energy traces, and parameter snapshots without SSH-ing into the cluster for every poll.

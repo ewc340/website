@@ -1,0 +1,54 @@
+---
+slug: rodeo-algorithm-notes
+title: "Notes on the Rodeo Algorithm"
+date: 2026-08-01
+category: tech
+tags: [quantum-computing, algorithms, research]
+excerpt: "A working introduction to the Rodeo Algorithm for ground-state preparation, with citations and a small code sketch."
+bibliography: references.bib
+csl: apa
+---
+
+The **Rodeo Algorithm** is a quantum protocol for preparing the ground state of a Hamiltonian by repeatedly measuring an energy estimator and "rodeo-ing" away excited-state components.[^1] It was demonstrated on superconducting hardware in recent work [@qian2024rodeo], and it sits in a family of approaches that trade circuit depth for additional sampling rounds.
+
+This note is not a full literature review — it's a concise map of the idea so I can refer back to it while reading papers.
+
+## Core idea
+
+Given a Hamiltonian \(H\) and an initial state \(|\psi_0\rangle\) with overlap on the ground state, the algorithm applies a sequence of phase gates keyed off randomized energy estimates. Each round suppresses amplitude on states above a threshold energy, analogous to a binary search in energy space.
+
+The appeal is modularity: you don't need a tailored ansatz for every Hamiltonian structure, which matters when exploring chemistry-inspired models on NISQ devices.
+
+### Why the name?
+
+The metaphor is deliberate — you "ride" the energy landscape by repeatedly correcting phase based on measured feedback, much like a rodeo rider reacting to each buck. The randomized schedule is part of what keeps circuits shallow relative to adiabatic preparation.
+
+## A minimal classical sketch
+
+The quantum version is more subtle, but a Python loop captures the *spirit* of thresholding energy estimates before applying conditional phases:
+
+```python
+import random
+
+def rodeo_threshold(energies: list[float], ground_estimate: float, rounds: int = 8) -> float:
+    """Toy illustration: narrow an energy estimate over random rounds."""
+    low, high = min(energies), max(energies)
+    for _ in range(rounds):
+        sample = random.uniform(low, high)
+  # In the real algorithm, quantum phase kicks depend on this draw
+        if sample < ground_estimate:
+            high = sample
+        else:
+            low = sample
+    return (low + high) / 2
+```
+
+On hardware, the energy estimate comes from Hadamard tests or related routines, not from a Python list — but the feedback structure is the same.
+
+## Practical takeaways
+
+Researchers highlight three implementation levers: the initial state overlap, the number of rodeo rounds, and the estimator variance [@rusti2023review]. Tightening any one of these can dominate success rates on today's devices.
+
+I'll revisit this once I've reproduced a small instance in simulation. For now, these notes are enough to anchor further reading.
+
+[^1]: This footnote is plain markdown — it should coexist cleanly with `[@key]` citations rendered below.
