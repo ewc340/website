@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Newsreader } from "next/font/google";
+import "katex/dist/katex.min.css";
 
 import { Footer } from "@/components/footer";
 import { NavBar } from "@/components/nav-bar";
