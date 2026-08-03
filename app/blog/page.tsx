@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
 import { PostCard } from "@/components/post-card";
@@ -7,6 +8,13 @@ import {
   getAllTags,
   getTagCounts,
 } from "@/lib/content/posts";
+
+export const metadata: Metadata = {
+  title: "Blog",
+  description:
+    "Technical write-ups, research notes, and things I'm learning along the way.",
+  alternates: { canonical: "/blog" },
+};
 
 const POSTS_PER_PAGE = 10;
 const CATEGORIES = ["tech", "notes", "life"] as const;

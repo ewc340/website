@@ -5,10 +5,12 @@ import { notFound } from "next/navigation";
 import { Clock } from "lucide-react";
 
 import { TableOfContents } from "@/components/blog/table-of-contents";
+import { JsonLd } from "@/components/json-ld";
 import { MDXContent } from "@/components/mdx/mdx-content";
 import { TagPill } from "@/components/tag-pill";
 import { getAllPosts, getPostBySlug } from "@/lib/content/posts";
 import { formatDate } from "@/lib/format";
+import { blogPostingJsonLd } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 
 type PostPageProps = {
@@ -32,6 +34,7 @@ export async function generateMetadata({
   return {
     title: post.title,
     description: post.excerpt,
+    alternates: { canonical: `/blog/${post.slug}` },
     openGraph: {
       title: post.title,
       description: post.excerpt,
@@ -57,6 +60,7 @@ export default async function PostPage({ params }: PostPageProps) {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+      <JsonLd data={blogPostingJsonLd(post)} />
       <div
         className={cn(
           "mx-auto",

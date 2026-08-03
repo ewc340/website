@@ -4,6 +4,7 @@ import { FeaturedPostCard } from "@/components/home/featured-post-card";
 import { AuthorCard } from "@/components/home/author-card";
 import { PopularTags } from "@/components/home/popular-tags";
 import { FeaturedProjectsList } from "@/components/home/featured-projects-list";
+import { JsonLd } from "@/components/json-ld";
 import { PostCard } from "@/components/post-card";
 import {
   getAllPosts,
@@ -11,6 +12,7 @@ import {
   getPopularTags,
 } from "@/lib/content/posts";
 import { getFeaturedProjects } from "@/lib/content/projects";
+import { personJsonLd } from "@/lib/seo";
 import { siteConfig } from "@/site.config";
 
 export default function HomePage() {
@@ -24,6 +26,7 @@ export default function HomePage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+      <JsonLd data={personJsonLd()} />
       <section className="mb-12 space-y-3">
         <h1 className="font-heading max-w-3xl text-4xl font-medium tracking-tight text-balance sm:text-5xl">
           Notes on software, research, and the craft of building things well.

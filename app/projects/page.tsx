@@ -1,6 +1,14 @@
+import type { Metadata } from "next";
+
 import { ProjectCard } from "@/components/project-card";
 import { TagPill } from "@/components/tag-pill";
 import { getAllProjects, getProjectTags } from "@/lib/content/projects";
+
+export const metadata: Metadata = {
+  title: "Projects",
+  description: "A selection of tools, experiments, and open-source work.",
+  alternates: { canonical: "/projects" },
+};
 
 type ProjectsPageProps = {
   searchParams: Promise<{ tag?: string }>;
