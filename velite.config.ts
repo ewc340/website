@@ -44,6 +44,7 @@ const posts = defineCollection({
       excerpt: s.string().max(280),
       cover: s.image().optional(),
       draft: s.boolean().default(false),
+      unlisted: s.boolean().default(false),
       bibliography: s.string().optional(),
       csl: s.string().default("apa"),
       toc: s.boolean().default(true),

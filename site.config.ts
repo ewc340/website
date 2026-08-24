@@ -13,11 +13,13 @@ export const siteConfig = {
   name: process.env.NEXT_PUBLIC_SITE_NAME ?? "Your Name",
   title: process.env.NEXT_PUBLIC_SITE_NAME ?? "Your Name",
   description: "Notes on software, research, and everyday learning.",
+  bio: "Building things and writing about it. Currently focused on quantum software, developer tooling, and clear technical communication.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
   nav: [
     { label: "Home", href: "/" },
     { label: "Projects", href: "/projects" },
     { label: "Blog", href: "/blog" },
+    { label: "About", href: "/about" },
   ] satisfies NavItem[],
   socials: [
     {

@@ -2,14 +2,31 @@ import { posts } from "#velite";
 
 export type BlogPost = (typeof posts)[number];
 
+/** Published posts visible in listings, feeds, sitemap, and tag indexes. */
+function isListedPost(post: BlogPost): boolean {
+  return !post.draft && !post.unlisted;
+}
+
+/** Any non-draft post, including unlisted — reachable by direct URL only. */
+function isAccessiblePost(post: BlogPost): boolean {
+  return !post.draft;
+}
+
 export function getAllPosts(): BlogPost[] {
   return posts
-    .filter((post) => !post.draft)
+    .filter(isListedPost)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+}
+
+/** For static generation: build pages for listed + unlisted posts (not drafts). */
+export function getPostsForStaticGeneration(): BlogPost[] {
+  return posts
+    .filter(isAccessiblePost)
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
-  return getAllPosts().find((post) => post.slug === slug);
+  return posts.find((post) => post.slug === slug && isAccessiblePost(post));
 }
 
 export function getPostsByTag(tag: string): BlogPost[] {

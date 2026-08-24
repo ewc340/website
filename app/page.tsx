@@ -1,17 +1,9 @@
 import Link from "next/link";
 
 import { FeaturedPostCard } from "@/components/home/featured-post-card";
-import { AuthorCard } from "@/components/home/author-card";
-import { PopularTags } from "@/components/home/popular-tags";
-import { FeaturedProjectsList } from "@/components/home/featured-projects-list";
 import { JsonLd } from "@/components/json-ld";
 import { PostCard } from "@/components/post-card";
-import {
-  getAllPosts,
-  getFeaturedPost,
-  getPopularTags,
-} from "@/lib/content/posts";
-import { getFeaturedProjects } from "@/lib/content/projects";
+import { getAllPosts, getFeaturedPost } from "@/lib/content/posts";
 import { personJsonLd } from "@/lib/seo";
 import { siteConfig } from "@/site.config";
 
@@ -21,8 +13,6 @@ export default function HomePage() {
   const recentPosts = allPosts
     .filter((post) => post.slug !== featuredPost?.slug)
     .slice(0, 6);
-  const popularTags = getPopularTags(8);
-  const featuredProjects = getFeaturedProjects();
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
@@ -36,43 +26,35 @@ export default function HomePage() {
         </p>
       </section>
 
-      <div className="grid gap-10 lg:grid-cols-[1fr_320px]">
-        <div className="space-y-12">
-          {featuredPost ? (
-            <section>
-              <FeaturedPostCard post={featuredPost} />
-            </section>
-          ) : null}
-
-          <section className="space-y-6">
-            <div className="flex items-end justify-between gap-4">
-              <h2 className="font-heading text-2xl font-medium tracking-tight">
-                Recent posts
-              </h2>
-              <Link
-                href="/blog"
-                className="text-sm font-medium text-primary hover:underline"
-              >
-                View all posts →
-              </Link>
-            </div>
-            {recentPosts.length > 0 ? (
-              <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-                {recentPosts.map((post) => (
-                  <PostCard key={post.slug} post={post} />
-                ))}
-              </div>
-            ) : (
-              <p className="text-muted-foreground">No posts yet.</p>
-            )}
+      <div className="space-y-12">
+        {featuredPost ? (
+          <section>
+            <FeaturedPostCard post={featuredPost} />
           </section>
-        </div>
+        ) : null}
 
-        <aside className="space-y-6">
-          <AuthorCard />
-          <PopularTags tags={popularTags} />
-          <FeaturedProjectsList projects={featuredProjects} />
-        </aside>
+        <section className="space-y-6">
+          <div className="flex items-end justify-between gap-4">
+            <h2 className="font-heading text-2xl font-medium tracking-tight">
+              Recent posts
+            </h2>
+            <Link
+              href="/blog"
+              className="text-sm font-medium text-primary hover:underline"
+            >
+              View all posts →
+            </Link>
+          </div>
+          {recentPosts.length > 0 ? (
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {recentPosts.map((post) => (
+                <PostCard key={post.slug} post={post} />
+              ))}
+            </div>
+          ) : (
+            <p className="text-muted-foreground">No posts yet.</p>
+          )}
+        </section>
       </div>
     </div>
   );

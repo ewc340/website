@@ -30,8 +30,7 @@ export function AuthorCard() {
         <div className="space-y-2">
           <h2 className="font-medium">{siteConfig.name}</h2>
           <p className="text-sm leading-relaxed text-muted-foreground">
-            Building things and writing about it. Currently focused on quantum
-            software, developer tooling, and clear technical communication.
+            {siteConfig.bio}
           </p>
         </div>
       </div>
