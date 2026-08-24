@@ -26,8 +26,16 @@ Open [http://localhost:3000](http://localhost:3000).
 
 Blog posts and projects live as Markdown/MDX under `content/blog/*` and `content/projects/*`, validated against Zod schemas in `velite.config.ts`. See `docs/BUILD_PLAN.md` §3–4 for the exact frontmatter schema, footnote (`[^1]`) and citation (`[@key]` + a per-post `.bib` file) authoring workflow.
 
+**Post visibility flags:**
+
+| Frontmatter | Visible in listings / RSS / sitemap | Reachable by direct URL |
+|---|---|---|
+| *(default)* | Yes | Yes |
+| `unlisted: true` | No | Yes (link-only; `noindex` for search engines) |
+| `draft: true` | No | No (404) |
+
 ## Before going live
 
-- Replace the placeholder name/socials/résumé in `site.config.ts` and `public/resume.pdf`.
-- Replace the placeholder bio copy in `components/home/author-card.tsx` and the homepage hero copy in `app/page.tsx`.
+- Replace the placeholder name/socials/bio/résumé in `site.config.ts` and `public/resume.pdf`.
+- Replace the homepage hero copy in `app/page.tsx` if desired.
 - Set `NEXT_PUBLIC_SITE_URL` to your real domain once you have one (see `docs/DEPLOYMENT.md`).
